@@ -181,6 +181,7 @@ public class TestUserApi {
     public void testDeleteImpersonationTokens() throws GitLabApiException, ParseException {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
+        System.out.println(user.getUsername());
         Scope[] scopes = {Scope.API, Scope.READ_USER};
         Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
         ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
