@@ -310,6 +310,65 @@ public class GroupApi extends AbstractApi {
     }
 
     /**
+     * Get a specific group members, which is owned by the authentication user.
+     *
+     * GET /groups/:id/members/:user_id
+     *
+     * @param groupId the group ID to get team member for
+     * @param userId the user ID of the member
+     * @return the member specified by the group ID/user ID pair
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member getMember(int groupId, int userId) throws GitLabApiException {
+        Response response = get(Response.Status.OK,  null, "groups", groupId, "members",userId);
+        return (response.readEntity(Member.class));
+    }
+
+    /**
+     * Adds a user to the list of group members.
+     *
+     * POST /groups/:id/members
+     *
+     * @param groupId the project ID to add the member to
+     * @param userId the user ID of the member to add
+     * @param accessLevel the access level for the new member
+     * @param expires_at a date string in the format YEAR-MONTH-DAY
+     * @return a Member instance for the added user
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member addMember(Integer groupId, Integer userId, Integer accessLevel,String expires_at) throws GitLabApiException {
+
+        Form formData = new Form();
+        formData.param("user_id", userId.toString());
+        formData.param("access_level", accessLevel.toString());
+        formData.param("expires_at", expires_at);
+        Response response = post(Response.Status.CREATED, formData, "groups", groupId, "members");
+        return (response.readEntity(Member.class));
+    }
+
+    /**
+     *update a specific group members, which is owned by the authentication user.
+     *
+     * PUT /groups/:id/members/:user_id
+     *
+     * @param groupId the ID of the group to update
+     * @param userId the user ID of the member to update
+     * @param access_level a valid access level
+     * @param expires_at a date string in the format YEAR-MONTH-DAY
+     * @return a Member instance with the newly updated group members info
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Member updateMember(int groupId, int userId,int access_level,String expires_at) throws GitLabApiException {
+        Form formData = new GitLabApiForm()
+                .withParam("access_level", access_level)
+                .withParam("expires_at", expires_at);
+        Response response = put(Response.Status.OK, formData.asMap(), "groups", groupId,"members",userId);
+        return (response.readEntity(Member.class));
+    }
+
+
+
+    /**
      * Get a list of group members viewable by the authenticated user in the specified page range.
      *
      * GET /groups/:id/members
