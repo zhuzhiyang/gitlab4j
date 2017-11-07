@@ -26,6 +26,7 @@ package org.gitlab4j.api;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
@@ -1469,5 +1470,27 @@ public class ProjectApi extends AbstractApi implements Constants {
     public String getRawSnippetContent(Integer projectId, Integer snippetId) throws GitLabApiException {
         Response response = get(Response.Status.OK, null, "projects", projectId, "snippets", snippetId, "raw");
         return (response.readEntity(String.class));
+    }
+
+    /**
+     * Create a new project variable
+     *
+     * POST /projects/:id/variables
+     *
+     * @param id The ID of a project or urlencoded NAMESPACE/PROJECT_NAME of the project owned by the authenticated user
+     * @param key The key of a variable; must have no more than 255 characters; only A-Z, a-z, 0-9, and _ are allowed
+     * @param value The value of a variable
+     * @param protecteds the access level for the new member
+     * @return Create a new project variable.
+     * @throws GitLabApiException if any exception occurs
+     */
+    public Map<String,Object> addVariable(Integer id, String key, String value, boolean protecteds) throws GitLabApiException {
+
+        Form formData = new Form();
+        formData.param("key", key);
+        formData.param("value", value);
+        formData.param("protected", String.valueOf(protecteds));
+        Response response = post(Response.Status.CREATED, formData, "projects", id, "variables");
+        return (response.readEntity(Map.class));
     }
 }
