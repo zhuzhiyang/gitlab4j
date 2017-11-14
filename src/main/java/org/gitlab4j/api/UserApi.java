@@ -18,7 +18,7 @@ import org.gitlab4j.api.models.User;
  */
 public class UserApi extends AbstractApi {
 
-    UserApi(GitLabApi gitLabApi) {
+    public UserApi(GitLabApi gitLabApi) {
         super(gitLabApi);
     }
 
@@ -654,6 +654,7 @@ public class UserApi extends AbstractApi {
                 .withParam("location", user.getLocation(), false)
                 .withParam("admin", user.getIsAdmin(), false)
                 .withParam("can_create_group", user.getCanCreateGroup(), false)
-                .withParam("external", user.getExternal(), false));
+                .withParam("external", user.getExternal(), false))
+                .withParam("extern_uid", user.getExternUid(), false);
     }
 }

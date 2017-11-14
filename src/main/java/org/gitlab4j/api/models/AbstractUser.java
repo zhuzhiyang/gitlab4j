@@ -39,6 +39,15 @@ public class AbstractUser {
     private String username;
     private String websiteUrl;
     private String webUrl;
+    private String externUid;
+
+    public String getExternUid() {
+        return externUid;
+    }
+
+    public void setExternUid(String externUid) {
+        this.externUid = externUid;
+    }
 
     public String getAvatarUrl() {
         return avatarUrl;
