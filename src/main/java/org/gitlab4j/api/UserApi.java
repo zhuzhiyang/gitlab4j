@@ -541,28 +541,6 @@ public class UserApi extends AbstractApi {
         }
 
         GitLabApiForm formData = new GitLabApiForm()
-                .withParam("state", state)
-                .withParam(PER_PAGE_PARAM, getDefaultPerPage());
-        Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "impersonation_tokens");
-        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
-    }
-
-    /**
-     * Get a list of a specified user's impersonation tokens.  Available only for admin users.
-     *
-     * GET /users/:id/impersonation_tokens
-     *
-     * @param userId the ID of the user to get impersonation tokens for
-     * @param state the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
-     * @return a list of a specified user's impersonation tokens
-     * @throws GitLabApiException if any exception occurs
-     */
-    public List<ImpersonationToken> getAllImpersonationTokens(Integer userId, ImpersonationState state) throws GitLabApiException {
-        if (userId == null) {
-            throw new RuntimeException("userId cannot be null");
-        }
-
-        GitLabApiForm formData = new GitLabApiForm()
                 .withParam("state", state);
         Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "impersonation_tokens");
         return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
@@ -604,7 +582,7 @@ public class UserApi extends AbstractApi {
      * @return the created ImpersonationToken instance
      * @throws GitLabApiException if any exception occurs
      */
-    public ImpersonationToken createImpersonationToken(Integer userId, String name, Date expiresAt, Scope[] scopes) throws GitLabApiException {
+    public ImpersonationToken createImpersonationToken(Integer userId, String name, String expiresAt, Scope[] scopes) throws GitLabApiException {
 
         if (userId == null) {
             throw new RuntimeException("userId cannot be null");
@@ -647,40 +625,6 @@ public class UserApi extends AbstractApi {
 
         Response.Status expectedStatus = (isApiVersion(ApiVersion.V3) ? Response.Status.OK : Response.Status.NO_CONTENT);
         delete(expectedStatus, null, "users", userId, "impersonation_tokens", tokenId);
-    }
-
-    /**
-     * Create an impersonation token.  Available only for admin users.
-     *
-     * POST /users/:user_id/impersonation_tokens
-     *
-     * @param userId the ID of the user to get SSH keys for
-     * @param name the name of the impersonation token, required
-     * @param expiresAt the expiration date of the impersonation token, optional
-     * @param scopes an array of scopes of the impersonation token
-     * @return the created ImpersonationToken instance
-     * @throws GitLabApiException if any exception occurs
-     */
-    public ImpersonationToken createImpersonationToken1(Integer userId, String name, String expiresAt, Scope[] scopes) throws GitLabApiException {
-
-        if (userId == null) {
-            throw new RuntimeException("userId cannot be null");
-        }
-
-        if (scopes == null || scopes.length == 0) {
-            throw new RuntimeException("scopes cannot be null or empty");
-        }
-
-        GitLabApiForm formData = new GitLabApiForm()
-                .withParam("name", name, true)
-                .withParam("expires_at", expiresAt,false);
-
-        for (Scope scope : scopes) {
-            formData.withParam("scopes[]", scope.toString());
-        }
-
-        Response response = post(Response.Status.CREATED, formData, "users", userId, "impersonation_tokens");
-        return (response.readEntity(ImpersonationToken.class));
     }
 
     /**

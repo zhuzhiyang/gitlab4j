@@ -145,8 +145,8 @@ public class TestUserApi {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
-        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+ //       Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+        ImpersonationToken token = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, "", scopes);
         assertNotNull(token);
         assertNotNull(token.getId());
         assertEquals(TEST_IMPERSONATION_TOKEN_NAME, token.getName());
@@ -160,8 +160,8 @@ public class TestUserApi {
 
         User user = gitLabApi.getUserApi().getCurrentUser();
         Scope[] scopes = {Scope.API, Scope.READ_USER};
-        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+ //       Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, "", scopes);
         assertNotNull(createdToken);
 
         ImpersonationToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
@@ -183,8 +183,8 @@ public class TestUserApi {
         User user = gitLabApi.getUserApi().getCurrentUser();
         System.out.println(user.getUsername());
         Scope[] scopes = {Scope.API, Scope.READ_USER};
-        Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
-        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, expiresAt, scopes);
+  //      Date expiresAt = ISO8601.toDate("2018-01-01T00:00:00Z");
+        ImpersonationToken createdToken = gitLabApi.getUserApi().createImpersonationToken(user.getId(), TEST_IMPERSONATION_TOKEN_NAME, "", scopes);
         assertNotNull(createdToken);
 
         ImpersonationToken token =  gitLabApi.getUserApi().getImpersonationToken(user.getId(), createdToken.getId());
