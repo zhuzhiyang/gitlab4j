@@ -650,6 +650,40 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Create an impersonation token.  Available only for admin users.
+     *
+     * POST /users/:user_id/impersonation_tokens
+     *
+     * @param userId the ID of the user to get SSH keys for
+     * @param name the name of the impersonation token, required
+     * @param expiresAt the expiration date of the impersonation token, optional
+     * @param scopes an array of scopes of the impersonation token
+     * @return the created ImpersonationToken instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public ImpersonationToken createImpersonationToken1(Integer userId, String name, String expiresAt, Scope[] scopes) throws GitLabApiException {
+
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        if (scopes == null || scopes.length == 0) {
+            throw new RuntimeException("scopes cannot be null or empty");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("name", name, true)
+                .withParam("expires_at", expiresAt,false);
+
+        for (Scope scope : scopes) {
+            formData.withParam("scopes[]", scope.toString());
+        }
+
+        Response response = post(Response.Status.CREATED, formData, "users", userId, "impersonation_tokens");
+        return (response.readEntity(ImpersonationToken.class));
+    }
+
+    /**
      * Populate the REST form with data from the User instance.
      *
      * @param user the User instance to populate the Form instance with
