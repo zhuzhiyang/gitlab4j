@@ -548,6 +548,27 @@ public class UserApi extends AbstractApi {
     }
 
     /**
+     * Get a list of a specified user's impersonation tokens.  Available only for admin users.
+     *
+     * GET /users/:id/impersonation_tokens
+     *
+     * @param userId the ID of the user to get impersonation tokens for
+     * @param state the state of impersonation tokens to list (ALL, ACTIVE, INACTIVE)
+     * @return a list of a specified user's impersonation tokens
+     * @throws GitLabApiException if any exception occurs
+     */
+    public List<ImpersonationToken> getAllImpersonationTokens(Integer userId, ImpersonationState state) throws GitLabApiException {
+        if (userId == null) {
+            throw new RuntimeException("userId cannot be null");
+        }
+
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("state", state);
+        Response response = get(Response.Status.OK, formData.asMap(), "users", userId, "impersonation_tokens");
+        return (response.readEntity(new GenericType<List<ImpersonationToken>>() {}));
+    }
+
+    /**
      * Get an impersonation token of a user.  Available only for admin users.
      *
      * GET /users/:user_id/impersonation_tokens/:impersonation_token_id
