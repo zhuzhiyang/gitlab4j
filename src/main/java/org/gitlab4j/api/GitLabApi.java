@@ -35,6 +35,7 @@ public class GitLabApi {
     private GroupApi groupApi;
     private IssuesApi issuesApi;
     private MergeRequestApi mergeRequestApi;
+    private MileStonesApi mileStonesApi;
     private NamespaceApi namespaceApi;
     private PipelineApi pipelineApi;
     private ProjectApi projectApi;
@@ -279,6 +280,7 @@ public class GitLabApi {
         issuesApi = new IssuesApi(this);
         jobApi = new JobApi(this);
         mergeRequestApi = new MergeRequestApi(this);
+        mileStonesApi = new MileStonesApi(this);
         namespaceApi = new NamespaceApi(this);
         notesApi = new NotesApi(this);
         pipelineApi = new PipelineApi(this);
@@ -495,6 +497,10 @@ public class GitLabApi {
      */
     public MergeRequestApi getMergeRequestApi() {
         return (mergeRequestApi);
+    }
+
+    public MileStonesApi getMileStonesApi() {
+        return mileStonesApi;
     }
 
     /**

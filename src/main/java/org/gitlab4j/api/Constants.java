@@ -214,6 +214,28 @@ public interface Constants {
         }
     }
 
+    public enum MilestoneState {
+
+        ACTIVE, CLOSED, ACTIVATE, CLOSE;
+
+        private static JacksonJsonEnumHelper<MilestoneState> enumHelper = new JacksonJsonEnumHelper<>(MilestoneState.class);
+
+        @JsonCreator
+        public static MilestoneState forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
     /** Enum to use for specifying the event action_type. */
     public enum ActionType {
 
