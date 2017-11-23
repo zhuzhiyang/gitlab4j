@@ -28,11 +28,11 @@ public class MileStonesApi extends AbstractApi {
         }));
     }
 
-    public List<Milestone> getMilestones(Integer projectId, int page, int perPage) throws GitLabApiException{
+    public List<Milestone> getMilestones(Integer projectId, int page, int perPage) throws GitLabApiException {
         if (projectId == null) {
             throw new RuntimeException("projectId cannot be null");
         }
-        Response response = get(Response.Status.OK, getPageQueryParams(page,perPage), "projects", projectId, "milestones");
+        Response response = get(Response.Status.OK, getPageQueryParams(page, perPage), "projects", projectId, "milestones");
         return (response.readEntity(new GenericType<List<Milestone>>() {
         }));
     }
@@ -114,7 +114,7 @@ public class MileStonesApi extends AbstractApi {
             throw new RuntimeException("milestoneId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.CLOSE);
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -126,7 +126,7 @@ public class MileStonesApi extends AbstractApi {
             throw new RuntimeException("milestoneId cannot be null");
         }
         GitLabApiForm formData = new GitLabApiForm().withParam("state_event", MilestoneState.ACTIVATE);
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
 
@@ -143,7 +143,7 @@ public class MileStonesApi extends AbstractApi {
                 .withParam("due_date", dueDate)
                 .withParam("start_date", startDate)
                 .withParam("state_event", milestoneState);
-        Response response = get(Response.Status.OK, getDefaultPerPageParam(), "projects", projectId, "milestones", milestoneId);
+        Response response = put(Response.Status.OK, formData.asMap(), "projects", projectId, "milestones", milestoneId);
         return (response.readEntity(Milestone.class));
     }
 }
